@@ -1,0 +1,28 @@
+#!/bin/sh
+
+# script/bootstrap: Resolve all dependencies that the application requires to
+#                   run.
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+if [ "$(uname -s)" = "Linux" ] && [ -f "/etc/arch-release" ]; then
+
+  # Install rustup if needed
+  which rustup >/dev/null 2>&1  || {
+    echo "==> Installing Dependencie"
+    sudo pacman -S rustup
+  }
+  which cargo >/dev/null 2>&1  || {
+    echo "Something goes wrong! cargo should be installed by rustup."
+    exit 1
+  }
+  which rustc >/dev/null 2>&1  || {
+    echo "==> Installing Dependencie"
+    rustup default stable
+  }
+else
+  echo "Sorry, only support ArchLinux system."
+  exit 1
+fi
