@@ -1,3 +1,5 @@
+use std::fmt;
+
 #[derive(Debug)]
 pub struct Post {
     state: Box<dyn State>,
@@ -7,15 +9,21 @@ pub struct Post {
 impl Post {
     pub fn new() -> Post {
         Post {
-            state: ???,
+            state: Box::new(Draft{}),
             content: String::from("abc"),
         }
     }
 }
 
 trait State {}
+impl fmt::Debug for dyn State {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "State")
+    }
+}
 
+#[derive(Debug)]
 struct Draft {}
 
-impl trait State for Draft {
+impl State for Draft {
 }
