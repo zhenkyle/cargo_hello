@@ -3,7 +3,7 @@ use std::fmt;
 #[derive(Debug)]
 pub struct Post {
     state: Box<dyn State>,
-    pub content: String,
+    content: String,
 }
 
 impl Post {
@@ -16,6 +16,10 @@ impl Post {
 
     pub fn add_text(&mut self, text: &str) {
         self.content.push_str(text);
+    }
+
+    pub fn content(&self) -> &str {
+        & self.content
     }
 }
 
