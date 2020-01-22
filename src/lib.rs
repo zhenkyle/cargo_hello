@@ -3,15 +3,19 @@ use std::fmt;
 #[derive(Debug)]
 pub struct Post {
     state: Box<dyn State>,
-    content: String,
+    pub content: String,
 }
 
 impl Post {
     pub fn new() -> Post {
         Post {
             state: Box::new(Draft{}),
-            content: String::from("abc"),
+            content: String::from(""),
         }
+    }
+
+    pub fn add_text(&mut self, text: &str) {
+        self.content = String::from(text);
     }
 }
 
