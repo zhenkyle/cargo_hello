@@ -42,3 +42,24 @@ impl State for Draft {
         ""
     }
 }
+
+#[derive(Debug)]
+struct PendingReview {
+}
+
+impl State for PendingReview {
+    fn content(&self) -> &str {
+        ""
+    }
+}
+
+#[derive(Debug)]
+struct Published {
+}
+
+impl State for Published {
+    fn content(&self) -> &str {
+        ""
+    }
+}
+
