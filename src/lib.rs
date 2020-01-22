@@ -25,6 +25,7 @@ impl Post {
 
 trait State {
     fn content<'a>(&self, post: &'a Post) -> &'a str;
+    fn requested_review(&self) -> &State;
 }
 
 impl fmt::Debug for dyn State {
@@ -40,6 +41,9 @@ struct Draft {
 impl State for Draft {
     fn content<'a>(&self, _post: &'a Post) -> &'a str {
         ""
+    }
+    fn requested_review(&self) -> &State {
+        &self
     }
 }
 
