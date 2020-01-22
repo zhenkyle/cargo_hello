@@ -1,14 +1,21 @@
 #[derive(Debug)]
 pub struct Post {
-    state: String,
+    state: Box<dyn State>,
     content: String,
 }
 
 impl Post {
     pub fn new() -> Post {
         Post {
-            state: String::from("abc"),
+            state: ???,
             content: String::from("abc"),
         }
     }
+}
+
+trait State {}
+
+struct Draft {}
+
+impl trait State for Draft {
 }
