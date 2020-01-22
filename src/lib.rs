@@ -15,7 +15,7 @@ impl Post {
     }
 
     pub fn add_text(&mut self, text: &str) {
-        self.content = String::from(text);
+        self.content.push_str(text);
     }
 }
 
@@ -30,4 +30,7 @@ impl fmt::Debug for dyn State {
 struct Draft {}
 
 impl State for Draft {
+}
+
+impl Draft {
 }
