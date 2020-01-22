@@ -38,17 +38,17 @@ struct Draft {
 }
 
 impl State for Draft {
-    fn content<'a>(&self, post: &'a Post) -> &'a str {
-        & post.content
+    fn content<'a>(&self, _post: &'a Post) -> &'a str {
+        ""
     }
 }
-/*
+
 #[derive(Debug)]
 struct PendingReview {
 }
 
 impl State for PendingReview {
-    fn content(&self, post: Post) -> &str {
+    fn content<'a>(&self, _post: &'a Post) -> &'a str {
         ""
     }
 }
@@ -58,8 +58,7 @@ struct Published {
 }
 
 impl State for Published {
-    fn content(&self, post: Post) -> &str {
-        ""
+    fn content<'a>(&self, post: &'a Post) -> &'a str {
+        & post.content
     }
 }
-*/
