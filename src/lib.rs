@@ -19,12 +19,12 @@ impl Post {
     }
 
     pub fn content(&self) -> &str {
-        self.state.content()
+        self.state.content(self)
     }
 }
 
 trait State {
-    fn content(&self) -> &str;
+    fn content<'a>(&self, post: &'a Post) -> &'a str;
 }
 
 impl fmt::Debug for dyn State {
@@ -38,17 +38,17 @@ struct Draft {
 }
 
 impl State for Draft {
-    fn content(&self) -> &str {
-        ""
+    fn content<'a>(&self, post: &'a Post) -> &'a str {
+        & post.content
     }
 }
-
+/*
 #[derive(Debug)]
 struct PendingReview {
 }
 
 impl State for PendingReview {
-    fn content(&self) -> &str {
+    fn content(&self, post: Post) -> &str {
         ""
     }
 }
@@ -58,8 +58,8 @@ struct Published {
 }
 
 impl State for Published {
-    fn content(&self) -> &str {
+    fn content(&self, post: Post) -> &str {
         ""
     }
 }
-
+*/
