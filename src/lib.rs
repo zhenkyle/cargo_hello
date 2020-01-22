@@ -2,14 +2,14 @@ use std::fmt;
 
 #[derive(Debug)]
 pub struct Post {
-    state: Box<dyn State>,
+    state: Option<Box<dyn State>>,
     content: String,
 }
 
 impl Post {
     pub fn new() -> Post {
         Post {
-            state: Box::new(Draft{}),
+            state: Some(Box::new(Draft{})),
             content: String::from(""),
         }
     }
@@ -19,13 +19,20 @@ impl Post {
     }
 
     pub fn content(&self) -> &str {
-        self.state.content(self)
+        // if no as_ref cannot compile, see rustc --explain E0507
+        self.state.as_ref().unwrap().content(self)
+    }
+
+    pub fn request_review(&mut self) {
+        if let Some(s) = self.state.take() {
+            self.state = Some(s.request_review())
+        }
     }
 }
 
 trait State {
     fn content<'a>(&self, post: &'a Post) -> &'a str;
-    fn requested_review(&self) -> &State;
+    fn request_review(self: Box<Self>) -> Box<dyn State>;
 }
 
 impl fmt::Debug for dyn State {
@@ -42,8 +49,8 @@ impl State for Draft {
     fn content<'a>(&self, _post: &'a Post) -> &'a str {
         ""
     }
-    fn requested_review(&self) -> &State {
-        &self
+    fn request_review(self: Box<Self>) -> Box<dyn State> {
+        Box::new(PendingReview{})
     }
 }
 
@@ -53,10 +60,14 @@ struct PendingReview {
 
 impl State for PendingReview {
     fn content<'a>(&self, _post: &'a Post) -> &'a str {
-        ""
+        "abc"
+    }
+    fn request_review(self: Box<Self>) -> Box<dyn State> {
+        self
     }
 }
 
+/*
 #[derive(Debug)]
 struct Published {
 }
@@ -66,3 +77,4 @@ impl State for Published {
         & post.content
     }
 }
+*/
