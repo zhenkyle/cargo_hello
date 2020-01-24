@@ -16,6 +16,11 @@ impl DraftPost {
     pub fn add_text(&mut self, text: &str) {
         self.content.push_str(text);
     }
+    pub fn request_review(&self) -> PendingReviewPost {
+        PendingReviewPost{
+            content: self.content.clone(),
+        }
+    }
 }
 
 pub struct PendingReviewPost {
@@ -23,4 +28,19 @@ pub struct PendingReviewPost {
 }
 
 impl PendingReviewPost {
+    pub fn approve(&self) -> ApprovedPost {
+        ApprovedPost{
+            content: self.content.clone(),
+        }
+    }
+}
+
+pub struct ApprovedPost {
+    content: String,
+}
+
+impl ApprovedPost {
+    pub fn content(&self) -> String {
+        self.content.clone()
+    }
 }
