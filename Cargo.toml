@@ -1,5 +1,5 @@
 [package]
-name = "cargo_hello"
+name = "blog"
 version = "0.1.0"
 authors = ["Zhen Kyle <zhenkyle@gmail.com>"]
 edition = "2018"

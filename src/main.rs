@@ -1,11 +1,14 @@
-use std::io;
+use blog::Post;
 
 fn main() {
-    println!("Hello, world!");
-    let mut guess = String::new();
-
-    io::stdin().read_line(&mut guess)
-        .expect("Failed to read line");
-    println!("You guessed: {}", guess);
-
+    let post = Post::new();
+    println!("{:?}",post);
+/*
+    post.add_text("I ate a salad for lunch today");
+    assert_eq!("",post.content);
+    post.request_review();
+    assert_eq!("",post.content);
+    post.approve();
+    assert_eq!("I ate a salad for lunch today",post.content);
+*/
 }
