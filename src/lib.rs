@@ -6,8 +6,8 @@ impl Post {
     pub fn new() -> DraftPost {
         DraftPost{ content: String::new(),}
     }
-    pub fn content(&self) -> String {
-        self.content.clone()
+    pub fn content(&self) -> &str {
+        &self.content
     }
 }
 
