@@ -1,11 +1,15 @@
-use std::io;
+//use std::io::prelude::*;
+use std::net::{TcpListener, TcpStream};
 
-fn main() {
-    println!("Hello, world!");
-    let mut guess = String::new();
+fn main() -> std::io::Result<()> {
+    let listener = TcpListener::bind("0.0.0.0:7878")?;
 
-    io::stdin().read_line(&mut guess)
-        .expect("Failed to read line");
-    println!("You guessed: {}", guess);
+    for stream in listener.incoming() {
+        handle_client(stream?);
+    }
+    Ok(())
+}
 
+fn handle_client(stream: TcpStream) {
+    println!("Got a connection!");
 }
