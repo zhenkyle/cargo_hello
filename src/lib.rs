@@ -15,6 +15,12 @@ pub struct DraftPost {
 impl DraftPost {
     pub fn add_text(&mut self, text: &str) {
         self.content.push_str(text);
-        println!("in content: {}", text);
     }
+}
+
+pub struct PendingReviewPost {
+    content: String,
+}
+
+impl PendingReviewPost {
 }
