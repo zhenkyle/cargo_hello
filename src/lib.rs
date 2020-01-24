@@ -19,9 +19,9 @@ impl DraftPost {
     pub fn add_text(&mut self, text: &str) {
         self.content.push_str(text);
     }
-    pub fn request_review(&self) -> PendingReviewPost {
+    pub fn request_review(self) -> PendingReviewPost {
         PendingReviewPost{
-            content: self.content.clone(),
+            content: self.content,
         }
     }
 }
@@ -31,9 +31,9 @@ pub struct PendingReviewPost {
 }
 
 impl PendingReviewPost {
-    pub fn approve(&self) -> Post {
+    pub fn approve(self) -> Post {
         Post{
-            content: self.content.clone(),
+            content: self.content,
         }
     }
 }
