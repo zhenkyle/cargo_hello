@@ -19,11 +19,14 @@ impl Post {
     }
 
     pub fn content(&self) -> &str {
-        & self.content
+        self.state.content()
     }
 }
 
-trait State {}
+trait State {
+    fn content(&self) -> &str;
+}
+
 impl fmt::Debug for dyn State {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "State")
@@ -31,10 +34,11 @@ impl fmt::Debug for dyn State {
 }
 
 #[derive(Debug)]
-struct Draft {}
-
-impl State for Draft {
+struct Draft {
 }
 
-impl Draft {
+impl State for Draft {
+    fn content(&self) -> &str {
+        ""
+    }
 }
