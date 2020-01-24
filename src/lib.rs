@@ -6,6 +6,9 @@ impl Post {
     pub fn new() -> DraftPost {
         DraftPost{ content: String::new(),}
     }
+    pub fn content(&self) -> String {
+        self.content.clone()
+    }
 }
 
 pub struct DraftPost {
@@ -28,19 +31,9 @@ pub struct PendingReviewPost {
 }
 
 impl PendingReviewPost {
-    pub fn approve(&self) -> ApprovedPost {
-        ApprovedPost{
+    pub fn approve(&self) -> Post {
+        Post{
             content: self.content.clone(),
         }
-    }
-}
-
-pub struct ApprovedPost {
-    content: String,
-}
-
-impl ApprovedPost {
-    pub fn content(&self) -> String {
-        self.content.clone()
     }
 }
