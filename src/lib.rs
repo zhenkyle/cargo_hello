@@ -3,7 +3,11 @@ pub struct Post {
 }
 
 impl Post {
-    pub fn new() -> Post {
-        Post{ content: String::from("abc"),}
+    pub fn new() -> DraftPost {
+        DraftPost{ content: String::new(),}
     }
+}
+
+pub struct DraftPost {
+    content: String,
 }
