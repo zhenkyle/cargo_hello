@@ -11,3 +11,10 @@ impl Post {
 pub struct DraftPost {
     content: String,
 }
+
+impl DraftPost {
+    pub fn add_text(&mut self, text: &str) {
+        self.content.push_str(text);
+        println!("in content: {}", text);
+    }
+}
