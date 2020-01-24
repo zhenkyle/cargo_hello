@@ -1,4 +1,4 @@
-//use std::io::prelude::*;
+use std::io::prelude::*; // for std:io:Read etc.
 use std::net::{TcpListener, TcpStream};
 
 fn main() -> std::io::Result<()> {
@@ -10,6 +10,9 @@ fn main() -> std::io::Result<()> {
     Ok(())
 }
 
-fn handle_client(stream: TcpStream) {
-    println!("Got a connection!");
+fn handle_client(mut stream: TcpStream) -> std::io::Result<()> {
+    let buffer = &mut [0; 512];
+    stream.read(buffer)?;
+    println!("{}",String::from_utf8_lossy(buffer));
+    Ok(())
 }
