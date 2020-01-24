@@ -1,18 +1,16 @@
 use std::io::prelude::*; // for std:io:Read etc.
 use std::net::{TcpListener, TcpStream};
 
-fn main() -> std::io::Result<()> {
-    let listener = TcpListener::bind("0.0.0.0:7878")?;
+fn main() {
+    let listener = TcpListener::bind("0.0.0.0:7878").unwrap();
 
     for stream in listener.incoming() {
-        handle_client(stream?);
+        handle_client(stream.unwrap());
     }
-    Ok(())
 }
 
-fn handle_client(mut stream: TcpStream) -> std::io::Result<()> {
+fn handle_client(mut stream: TcpStream) {
     let buffer = &mut [0; 512];
-    stream.read(buffer)?;
+    stream.read(buffer).unwrap();
     println!("{}",String::from_utf8_lossy(buffer));
-    Ok(())
 }
