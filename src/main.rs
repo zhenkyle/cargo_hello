@@ -21,4 +21,5 @@ fn handle_client(mut stream: TcpStream) {
     let mut buffer = [0; 512];
     stream.read(&mut buffer).unwrap();
     println!("{}",String::from_utf8_lossy(&buffer[..]));
+    stream.write(b"ABC").unwrap();
 }
