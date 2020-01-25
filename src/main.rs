@@ -8,7 +8,10 @@ fn main() {
 
     for stream in listener.incoming() {
         let stream = stream.unwrap();
-        handle_client(stream);
+
+        thread::spawn(move || {
+            handle_client(stream);
+        });
     }
 }
 
@@ -21,7 +24,7 @@ fn handle_client(mut stream: TcpStream) {
     let (status_line, filename) = if buffer.starts_with(get) {
         ("HTTP/1.1 200 OK\r\n\r\n", "hello.html")
     } else if buffer.starts_with(get_slow) {
-        let sleep_time = time::Duration::from_secs(2);
+        let sleep_time = time::Duration::from_secs(10);
         thread::sleep(sleep_time);
         ("HTTP/1.1 200 OK\r\n\r\n", "hello.html")
     } else {
