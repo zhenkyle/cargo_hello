@@ -11,14 +11,6 @@ fn main() {
         handle_client(stream);
     }
 }
-// My version also works
-/*
-fn handle_client(mut stream: TcpStream) {
-    let buffer = &mut [0; 512];
-    stream.read(buffer).unwrap();
-    println!("{}",String::from_utf8_lossy(buffer));
-}
- */
 
 fn handle_client(mut stream: TcpStream) {
     let mut buffer = [0; 512];
