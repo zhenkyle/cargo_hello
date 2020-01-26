@@ -4,8 +4,22 @@ use std::sync::{Mutex, Arc};
 
 type Job = Box<dyn FnOnce() + Send + 'static>;
 
+struct Worker {
+    id: usize,
+    thread: thread::JoinHandle<()>,
+}
+
+impl Worker {
+    fn new(id: usize, thread: thread::JoinHandle<()>) -> Worker {
+        Worker {
+            id,
+            thread
+        }
+    }
+}
+
 pub struct ThreadPool {
-    threads: Vec<thread::JoinHandle<()>>,
+    workers: Vec<Worker>,
     sender: std::sync::mpsc::Sender<Job>,
 }
 
@@ -15,7 +29,7 @@ impl ThreadPool {
         let (sender, receiver) = mpsc::channel();
         let receiver = Mutex::new(receiver);
         let receiver = Arc::new(receiver);
-        let mut threads = Vec::with_capacity(4);
+        let mut workers = Vec::with_capacity(4);
         for i in 0..size {
             let receiver = Arc::clone(&receiver);
             let thread = std::thread::spawn(move || {
@@ -26,11 +40,11 @@ impl ThreadPool {
                     job();
                 }
             });
-            threads.push(thread);
+            workers.push(Worker::new(i, thread));
         }
 
         ThreadPool {
-            threads,
+            workers,
             sender
         }
     }
