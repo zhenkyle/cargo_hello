@@ -10,7 +10,7 @@ fn main() {
     for stream in listener.incoming() {
         let stream = stream.unwrap();
 
-        thread::spawn(move || {
+        thread::spawn(|| {
             handle_client(stream);
         });
     }
