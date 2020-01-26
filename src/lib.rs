@@ -1,9 +1,9 @@
-use std::thread::JoinHandle;
+use std::thread;
 use std::sync::mpsc::channel;
 use std::sync::{Mutex, Arc}; 
 
 pub struct ThreadPool {
-    threads: Vec<JoinHandle<()>>,
+    threads: Vec<thread::JoinHandle<()>>,
     sender: std::sync::mpsc::Sender<u32>,
 }
 
