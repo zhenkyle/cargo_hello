@@ -8,13 +8,15 @@ fn main() {
     let thread_pool = hello::ThreadPool::new(4);
     let listener = TcpListener::bind("0.0.0.0:7878").unwrap();
 
-    for stream in listener.incoming() {
+    for stream in listener.incoming().take(2) {
         let stream = stream.unwrap();
 
         thread_pool.execute(|| {
             handle_client(stream);
         });
     }
+
+    println!("Shutting down.");
 }
 
 fn handle_client(mut stream: TcpStream) {
