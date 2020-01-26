@@ -23,7 +23,7 @@ impl ThreadPool {
                     let job: Job;
                     job = receiver.lock().unwrap().recv().unwrap();
                     println!("Got a job!");
-                    (*job)();
+                    job();
                 }
             });
             threads.push(thread);
