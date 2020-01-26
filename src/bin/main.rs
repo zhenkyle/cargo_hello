@@ -2,7 +2,7 @@ use std::io::prelude::*; // for std:io:Read etc.
 use std::fs;
 use std::net::{TcpListener, TcpStream};
 use std::{thread, time};
-use hello::ThreadPool;
+// use hello::ThreadPool; // seems no needed
 
 fn main() {
     let thread_pool = hello::ThreadPool::new(4);
