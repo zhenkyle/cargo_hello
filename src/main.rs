@@ -19,12 +19,12 @@ fn handle_client(mut stream: TcpStream) {
     let mut buffer = [0; 512];
     stream.read(&mut buffer).unwrap();
     let get = b"GET / HTTP/1.1\r\n";
-    let get_slow = b"GET /slow HTTP/1.1\r\n";
+    let sleep = b"GET /sleep HTTP/1.1\r\n";
 
     let (status_line, filename) = if buffer.starts_with(get) {
         ("HTTP/1.1 200 OK\r\n\r\n", "hello.html")
-    } else if buffer.starts_with(get_slow) {
-        let sleep_time = time::Duration::from_secs(10);
+    } else if buffer.starts_with(sleep) {
+        let sleep_time = time::Duration::from_secs(5);
         thread::sleep(sleep_time);
         ("HTTP/1.1 200 OK\r\n\r\n", "hello.html")
     } else {
