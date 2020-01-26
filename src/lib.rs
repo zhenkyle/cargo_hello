@@ -58,3 +58,15 @@ impl ThreadPool {
         self.sender.send(job).unwrap();
     }
 }
+
+impl Drop for ThreadPool {
+    fn drop(&mut self) {
+//        for i in 0..self.workers.capacity() {
+//            self.sender.send(Terminat).unwrap();
+//        }
+
+        for worker in self.workers.iter() {
+            worker.thread.join();
+        }
+    }
+}
