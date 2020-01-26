@@ -2,9 +2,11 @@ use std::thread;
 use std::sync::mpsc;
 use std::sync::{Mutex, Arc}; 
 
+type Job = Box<dyn FnOnce() + Send + 'static>;
+
 pub struct ThreadPool {
     threads: Vec<thread::JoinHandle<()>>,
-    sender: std::sync::mpsc::Sender<u32>,
+    sender: std::sync::mpsc::Sender<Job>,
 }
 
 impl ThreadPool {
@@ -18,8 +20,8 @@ impl ThreadPool {
             let receiver = Arc::clone(&receiver);
             let thread = std::thread::spawn(move || {
                 loop {
-                    let num = receiver.lock().unwrap().recv().unwrap();
-                    println!("Got {}!", num);
+                    let job = receiver.lock().unwrap().recv().unwrap();
+                    println!("Got a job!");
                 }
             });
             threads.push(thread);
@@ -36,6 +38,7 @@ impl ThreadPool {
         F: FnOnce(),
         F: Send + 'static,
     {
-        self.sender.send(5).unwrap();
+        let job = Box::new(f);
+        self.sender.send(job).unwrap();
     }
 }
