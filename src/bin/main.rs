@@ -5,12 +5,13 @@ use std::{thread, time};
 use hello::ThreadPool;
 
 fn main() {
+    let thread_pool = hello::ThreadPool::new();
     let listener = TcpListener::bind("0.0.0.0:7878").unwrap();
 
     for stream in listener.incoming() {
         let stream = stream.unwrap();
 
-        thread::spawn(|| {
+        thread_pool.execute(|| {
             handle_client(stream);
         });
     }
