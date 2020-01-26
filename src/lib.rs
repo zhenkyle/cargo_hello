@@ -20,7 +20,8 @@ impl ThreadPool {
             let receiver = Arc::clone(&receiver);
             let thread = std::thread::spawn(move || {
                 loop {
-                    let job = receiver.lock().unwrap().recv().unwrap();
+                    let job: Job;
+                    job = receiver.lock().unwrap().recv().unwrap();
                     println!("Got a job!");
                     (*job)();
                 }
