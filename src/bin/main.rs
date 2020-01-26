@@ -5,7 +5,7 @@ use std::{thread, time};
 use hello::ThreadPool;
 
 fn main() {
-    let thread_pool = hello::ThreadPool::new();
+    let thread_pool = hello::ThreadPool::new(4);
     let listener = TcpListener::bind("0.0.0.0:7878").unwrap();
 
     for stream in listener.incoming() {

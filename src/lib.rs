@@ -8,12 +8,13 @@ pub struct ThreadPool {
 }
 
 impl ThreadPool {
-    pub fn new() -> ThreadPool {
+    pub fn new(size: usize) -> ThreadPool {
+        assert!(size > 0);
         let (sender, receiver) = channel();
         let receiver = Mutex::new(receiver);
         let receiver = Arc::new(receiver);
         let mut threads = Vec::with_capacity(4);
-        for i in 0..4 {
+        for i in 0..size {
             let receiver = Arc::clone(&receiver);
             let thread = std::thread::spawn(move || {
                 loop {
