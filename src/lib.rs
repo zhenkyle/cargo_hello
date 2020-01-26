@@ -10,7 +10,16 @@ struct Worker {
 }
 
 impl Worker {
-    fn new(id: usize, thread: thread::JoinHandle<()>) -> Worker {
+    fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Worker {
+            let thread = thread::spawn(move || {
+                loop {
+
+                    let job = receiver.lock().unwrap().recv().unwrap();
+                    println!("Worker {} got a job; executing.", id);
+                    (job)();
+                }
+            });
+        
         Worker {
             id,
             thread
@@ -31,16 +40,7 @@ impl ThreadPool {
         let receiver = Arc::new(receiver);
         let mut workers = Vec::with_capacity(4);
         for i in 0..size {
-            let receiver = Arc::clone(&receiver);
-            let thread = thread::spawn(move || {
-                loop {
-                    let job: Job;
-                    job = receiver.lock().unwrap().recv().unwrap();
-                    println!("Got a job!");
-                    job();
-                }
-            });
-            workers.push(Worker::new(i, thread));
+            workers.push(Worker::new(i, Arc::clone(&receiver)));
         }
 
         ThreadPool {
