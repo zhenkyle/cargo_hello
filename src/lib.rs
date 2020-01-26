@@ -20,7 +20,7 @@ impl Worker {
 
 pub struct ThreadPool {
     workers: Vec<Worker>,
-    sender: std::sync::mpsc::Sender<Job>,
+    sender: mpsc::Sender<Job>,
 }
 
 impl ThreadPool {
@@ -32,7 +32,7 @@ impl ThreadPool {
         let mut workers = Vec::with_capacity(4);
         for i in 0..size {
             let receiver = Arc::clone(&receiver);
-            let thread = std::thread::spawn(move || {
+            let thread = thread::spawn(move || {
                 loop {
                     let job: Job;
                     job = receiver.lock().unwrap().recv().unwrap();
