@@ -2,6 +2,7 @@ use std::io::prelude::*; // for std:io:Read etc.
 use std::fs;
 use std::net::{TcpListener, TcpStream};
 use std::{thread, time};
+use hello::ThreadPool;
 
 fn main() {
     let listener = TcpListener::bind("0.0.0.0:7878").unwrap();
